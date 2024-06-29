@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pattern Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    input, button {
+      margin: 5px;
+      padding: 10px;
+    }
+    pre {
+      margin-top: 20px;
+      background-color: #f0f0f0;
+      padding: 20px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <input type="number" id="numberInput" placeholder="Enter N" min="1" max="26">
+  <input type="text" id="typeInput" placeholder="Enter T (e.g., 'a' or '1')">
+  <button onclick="generatePattern()">Generate Pattern</button>
+  <pre id="patternOutput"></pre>
+
+  <script>
+  function generatePattern() {
+    const n = parseInt(document.getElementById('numberInput').value);
+    const t = document.getElementById('typeInput').value;
+
+    // Function to generate the pattern
+    function printRectangle(n, t) {
+        let result = "";
+        for (let i = 1; i <= n; i++) {
+            let row = "";
+            for (let j = 1; j <= n; j++) {
+                if (i === 1 || i === n || j === 1 || j === n) {
+                    if (t === "a") {
+                        // Print letters based on column index
+                        let char = String.fromCharCode(96 + j); // 'a' corresponds to ASCII 97
+                        if (i === 1) {
+                            row += char; // Top edge
+                        } else if (i === n) {
+                            row += String.fromCharCode(96 + n - j + 1); // Bottom edge
+                        } else if (j === 1) {
+                            row += String.fromCharCode(96 + i); // Left edge
+                        } else if (j === n) {
+                            row += String.fromCharCode(96 + n - i + 1); // Right edge
+                        }
+                        
+                    } else if (t === "1") {
+                        // Print numbers based on the edge position
+                        if (i === 1) {
+                            row += j; // Top edge
+                        } else if (i === n) {
+                            row += n - j + 1; // Bottom edge
+                        } else if (j === 1) {
+                            row += i; // Left edge
+                        } else if (j === n) {
+                            row += n - i + 1; // Right edge
+                        }
+                    }
+                } else {
+                    row += " ";
+                }
+            }
+            result += row + "\n";
+        }
+        return result;
+    }
+
+    // Call the function and display the result
+    const pattern = printRectangle(n, t);
+    document.getElementById('patternOutput').textContent = pattern;
+}
+
+  </script>
+</body>
+</html>
